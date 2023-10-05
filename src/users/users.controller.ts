@@ -7,12 +7,11 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Get('insert')
-  insertData(@Query() Data) {
-    const { username, password, id } = Data;
+  insertData(@Query() user) {
+    const { username, password } = user;
     const params = new User();
-    params.firstName = username;
-    params.lastName = password;
-    // params.id = Number(id);
+    params.username = username;
+    params.password = password;
     console.log(params);
     return this.usersService.insertData(params);
   }

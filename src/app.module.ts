@@ -12,7 +12,7 @@ const DatabaseModule = TypeOrmModule.forRoot({
   port: 3306,
   username: 'root',
   password: 'xinxin',
-  database: 'test',
+  database: 'users',
   entities: [User],
   synchronize: true,
   logging: true,
