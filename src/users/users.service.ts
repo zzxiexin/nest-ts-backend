@@ -1,21 +1,28 @@
 import { Injectable } from '@nestjs/common';
-import { InjectEntityManager } from '@nestjs/typeorm';
-import { EntityManager } from 'typeorm';
-import { User_1 } from '../users/entities/user.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { User } from './entities/user.entity';
 
 @Injectable()
-export class UserService {
+export class UsersService {
   constructor(
-    @InjectEntityManager()
-    private readonly entityManager: EntityManager,
+    @InjectRepository(User)
+    private usersRepository: Repository<User>,
   ) {}
 
-  async createTable(): Promise<void> {
-    await this.entityManager.query('CREATE TABLE users (id INT AUTO_INCREMENT PRIMARY KEY, username VARCHAR(255), password VARCHAR(255))');
+  insertData(params) {
+    return this.usersRepository.insert(params);
   }
 
-  async insertData(user: User_1): Promise<User_1> {
-    await this.entityManager.save(user);
-    return user;
+  findAll(): Promise<User[]> {
+    return this.usersRepository.find();
+  }
+
+  findOne(id: string): Promise<User> {
+    return this.usersRepository.findOne(id as unknown);
+  }
+
+  async remove(id: string): Promise<void> {
+    await this.usersRepository.delete(id);
   }
 }

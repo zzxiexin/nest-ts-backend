@@ -2,25 +2,24 @@ import { Module, Dependencies } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User_1 } from './users/entities/user.entity';
+import { User } from './users/entities/user.entity';
 import { UsersModule } from './users/users.module';
 import { DataSource } from 'typeorm';
 
-
-const DatabaseConfig = TypeOrmModule.forRoot({
+const DatabaseModule = TypeOrmModule.forRoot({
   type: 'mysql',
   host: 'localhost',
   port: 3306,
   username: 'root',
   password: 'xinxin',
-  database: 'mysql',
-  entities: [],
+  database: 'test',
+  entities: [User],
   synchronize: true,
-  logging: true
+  logging: true,
 });
 @Dependencies(DataSource)
 @Module({
-  imports: [DatabaseConfig, TypeOrmModule.forFeature([User_1]), UsersModule],
+  imports: [DatabaseModule, UsersModule],
   controllers: [AppController],
   providers: [AppService],
 })
