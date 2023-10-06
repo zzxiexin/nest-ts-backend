@@ -11,8 +11,9 @@ import { User } from './users/entities/user.entity';
 import { UsersModule } from './users/users.module';
 import { DataSource } from 'typeorm';
 import { AuthModule } from './auth/auth.module';
-import { CorsMiddleware } from './cors'; // 可自定义拦截器
+import { CorsMiddleware } from './cors.config'; // 可自定义拦截器
 
+// 数据库连接
 const DatabaseModule = TypeOrmModule.forRoot({
   type: 'mysql',
   host: 'localhost',
