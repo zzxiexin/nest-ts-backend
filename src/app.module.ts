@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './users/entities/user.entity';
 import { UsersModule } from './users/users.module';
 import { DataSource } from 'typeorm';
+import { AuthModule } from './auth/auth.module';
 
 const DatabaseModule = TypeOrmModule.forRoot({
   type: 'mysql',
@@ -20,7 +21,7 @@ const DatabaseModule = TypeOrmModule.forRoot({
 });
 @Dependencies(DataSource)
 @Module({
-  imports: [DatabaseModule, UsersModule],
+  imports: [DatabaseModule, UsersModule, AuthModule],
   controllers: [AppController],
   providers: [AppService],
 })
