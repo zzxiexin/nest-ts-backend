@@ -16,6 +16,7 @@ const DatabaseModule = TypeOrmModule.forRoot({
   entities: [User],
   synchronize: true,
   logging: true,
+  autoLoadEntities: true,
 });
 @Dependencies(DataSource)
 @Module({

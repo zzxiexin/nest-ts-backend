@@ -22,4 +22,10 @@ export class UsersController {
     console.log(username);
     return this.usersService.findOne(username);
   }
+
+  @Get('delete')
+  deleteData(@Query() user) {
+    const { username } = user;
+    return this.usersService.remove(username);
+  }
 }

@@ -22,7 +22,12 @@ export class UsersService {
     return this.usersRepository.findOne({ where: { username } });
   }
 
-  async remove(id: string): Promise<void> {
-    await this.usersRepository.delete(id);
+  async remove(username: string): Promise<void> {
+    await this.usersRepository
+      .createQueryBuilder()
+      .delete()
+      .where('username = :username', { username }) // 根据id字段进行删除
+      .execute();
+    // await this.usersRepository.delete(username);
   }
 }
