@@ -1,4 +1,9 @@
-import { Module, Dependencies } from '@nestjs/common';
+import {
+  Module,
+  Dependencies,
+  MiddlewareConsumer,
+  NestModule,
+} from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -6,6 +11,7 @@ import { User } from './users/entities/user.entity';
 import { UsersModule } from './users/users.module';
 import { DataSource } from 'typeorm';
 import { AuthModule } from './auth/auth.module';
+import { CorsMiddleware } from './cors'; // 可自定义拦截器
 
 const DatabaseModule = TypeOrmModule.forRoot({
   type: 'mysql',
@@ -25,4 +31,8 @@ const DatabaseModule = TypeOrmModule.forRoot({
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(CorsMiddleware).forRoutes('*');
+  }
+}
