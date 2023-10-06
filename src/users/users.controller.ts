@@ -12,7 +12,14 @@ export class UsersController {
     const params = new User();
     params.username = username;
     params.password = password;
-    console.log(params);
+    console.log('insert', params);
     return this.usersService.insertData(params);
+  }
+
+  @Get('query')
+  queryData(@Query() user) {
+    const { username } = user;
+    console.log(username);
+    return this.usersService.findOne(username);
   }
 }
