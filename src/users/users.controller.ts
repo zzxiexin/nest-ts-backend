@@ -1,4 +1,12 @@
-import { Controller, Get, Query, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Query,
+  Request,
+  UseGuards,
+} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { User } from './entities/user.entity';
 import { AuthGuard } from '@nestjs/passport';
@@ -8,14 +16,9 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @UseGuards(AuthGuard('jwt'))
-  @Get('insert')
-  insertData(@Query() user) {
-    const { username, password } = user;
-    const params = new User();
-    params.username = username;
-    params.password = password;
-    console.log('insert', params);
-    return this.usersService.insertData(params);
+  @Get('allUsers')
+  getAllUsers() {
+    return this.usersService.findAll();
   }
 
   @UseGuards(AuthGuard('jwt'))
@@ -27,9 +30,21 @@ export class UsersController {
   }
 
   @UseGuards(AuthGuard('jwt'))
-  @Get('delete')
-  deleteData(@Query() user) {
-    const { username } = user;
-    return this.usersService.remove(username);
+  @Post('insert')
+  insertUser(@Body() user) {
+    const { username, password } = user;
+    const params = new User();
+    params.username = username;
+    params.password = password;
+    console.log('insert', params);
+    return this.usersService.insertData(params);
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Post('delete')
+  deleteUser(@Body() user) {
+    const { id } = user;
+    console.log('id', user);
+    return this.usersService.remove(id);
   }
 }
